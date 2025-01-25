@@ -14,16 +14,31 @@ def main(json_file, sqlite_file):
         print('There is no books key in the given json file.')
         print('Database was not created.')
         return
-
+    #print(books)
     sqlite_connection = sqlite3.connect(sqlite_file)
-    sqlite_cursor = sqlite_connection.cursor()
+    cur= sqlite_connection.cursor()
 
     #CREATE TABLE QUERY
-
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS Books (
+        bookorder INTEGER,
+        title TEXT not NULL,
+        sandersonCoWrote BOOLEAN not NULL,
+        goodreadsAverage FLOAT,
+        mcburneyScore INTEGER,
+        mcburneyReview TEXT)
+        ''')
 
     #INSERT VALUES QUERY
-
-
+    for book in books:
+        values=[]
+        for col in ["order","title","sandersonCoWrote","goodreadsAverage","mcburneyScore","mcburneyReview"]:
+            if col in book:
+                values.append(book[col])
+            else:
+                values.append(None)
+        cur.execute("INSERT INTO Books VALUES(?,?,?,?,?,?)",values)
+    sqlite_connection.commit()
     sqlite_connection.close()
     print('Completed reading json file to database.')
 
