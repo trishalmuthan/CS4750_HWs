@@ -29,6 +29,6 @@ def main(json_file, sqlite_file):
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        print('Correct Usage: python hw1.py <JSON file> <.sqlite DB file>')
+        print('Correct Usage: python hw1.py <.json file> <.sqlite file>')
     else:
         main(sys.argv[1], sys.argv[2])
